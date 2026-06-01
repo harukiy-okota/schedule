@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+form {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 10px;
+  display: flex;
+  gap: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+input {
+  padding: 5px;
+  font-size: 14px;
+}
+
+button {
+  padding: 5px 10px;
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.timeline {
+  position: relative;
+  height: 2400px;
+  margin-left: 60px;
+}
+
+.time-label {
+  position: absolute;
+  left: -60px;
+  font-size: 12px;
+  color: gray;
+}
+
+.task {
+  position: absolute;
+  left: 100px;
+  width: 250px;
+  padding: 8px;
+  background: #4da6ff;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.delete-btn {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.task-text {
+  pointer-events: none;
+}
+
+.delete-btn {
+  float: right;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.task-text {
+  pointer-events: none;
+}
+
+.done {
+  background: gray;
+  text-decoration: line-through;
+}
+</style>
+</head>
+<body>
+<form method="POST">
+  <input type="text" name="name" placeholder="やること">
+  <input type="number" name="hour" placeholder="時" min="0" max="23">
+  <input type="number" name="minute" placeholder="分" min="0" max="59">
+  <button type="submit">追
+
+<script>
+document.querySelectorAll(".task").forEach(task => {
+  task.addEventListener("click", (e) => {
+    if (e.target.tagName === "A") return;
+    task.classList.toggle("done");
+  });
+});
+</script>
+
+</body>
+</html>

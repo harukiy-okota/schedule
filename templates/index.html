@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+form {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 10px;
+  display: flex;
+  gap: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+input {
+  padding: 5px;
+  font-size: 14px;
+}
+
+button {
+  padding: 5px 10px;
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.timeline {
+  position: relative;
+  height: 2400px;
+  margin-left: 60px;
+}
+
+.time-label {
+  position: absolute;
+  left: -60px;
+  font-size: 16px;
+  font-weight: bold;
+  color: black;
+}
+
+.task {
+  position: absolute;  
+  left: 30px;
+  width: 200px;
+  padding: 8px;
+  background: #4da6ff;
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-sizing: border-box;
+}
+
+.delete-btn {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.task-text {
+  pointer-events: none;
+}
+
+.task-text {
+  pointer-events: none;
+}
+
+.done {
+  background: gray;
+  text-decoration: line-through;
+}
+
+.edit-btn,
+.delete-btn {
+  color: white;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.2);
+  margin-left: 5px;
+}
+
+.task-buttons {
+  margin-left: auto;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #ccc;
+  color: black;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+</style>
+</head>
+<body>
+<form method="POST">
+  <input type="text" name="name" placeholder="やること">
+  <input type="number" name="hour" placeholder="時" min="0" max="23">
+  :
+  <input type="number" name="minute" placeholder="分" min="0" max="59">
+  〜
+  <input type="number" name="end_hour" placeholder="時" min="0" max="23">
+  :
+  <input type="number" name="end_minute" placeholder="分" min="0" max="59">
+  <select name="color">
+    <option value="#4da6ff">青</option>
+    <option value="#ff6666">赤</option>
+    <option value="#66cc66">緑</option>
+    <option value="#ffcc66">オレンジ</option>
+    <option value="#cc99ff">紫</option>
+</select>
+  <button type="submit">追加</button>
+</form>
+<div class="timeline">
+  {% for i in range(48) %}
+    {% if i % 2 == 0 %}
+      <div style="position: absolute; top: {{ i * 50 }}px; left: 0; width: 100%; border-top: 2px solid #bbb;"></div>
+    {% else %}
+      <div style="position: absolute; top: {{ i * 50 }}px; left: 0; width: 100%; border-top: 1px solid #ccc;"></div>
+    {% endif %}
+  {% endfor %}
+  {% for i in range(24) %}
+    <div class="time-label" style="top: {{ i * 100 }}px;">
+      {{ i }}:00
+    </div>
+  {% endfor %}
+  {% for task in tasks %}
+  　<div class="task"
+      style="
+        top: {{ task.y }}px;
+        min-height: {{ task.height }}px;
+        background: {{ task.color }};
+      ">
+
+    　<span class="task-text">
+        {{ task.name }}</span>
+
+    　<div class="task-buttons">
+     　 <a href="/edit/{{ loop.index0 }}" class="edit-btn">
+          編集
+        </a>
+        <a href="/delete/{{ loop.index0 }}" class="delete-btn">
+          ❌
+        </a>
+    　</div>
+
+　　</div>
+　{% endfor %}
+
+</div>
+
+<script>
+document.querySelectorAll(".task").forEach(task => {
+  task.addEventListener("click", (e) => {
+
+    if (e.target.tagName === "A") return;
+
+    if (task.classList.contains("done")) {
+      task.classList.remove("done");
+      task.style.filter = "none";
+    } else {
+      task.classList.add("done");
+      task.style.filter = "grayscale(100%)";
+    }
+
+  });
+});
+</script>
+
+</body>
+</html>
